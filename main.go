@@ -220,10 +220,17 @@ func iostat() ([]iopsData, error) {
 		return nil, fmt.Errorf("iops: %v", err)
 	}
 
-	// Linux 4.2.0-25-generic (a109563eab38)	04/01/16	_x86_64_(4 CPU)
-	//
-	// avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-	//	          2.37    0.00    1.58    0.01    0.00   96.04
+	// Linux 4.13.0-39-generic (sumit-Latitude-3450) 	Friday 11 May 2018 	_x86_64_(4 CPU)
+
+	// Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+	// loop0            14.33        15.48         0.00      13374          0
+	// loop1             0.07         1.22         0.00       1054          0
+	// loop2             0.10         1.26         0.00       1086          0
+	// loop3            59.16        60.30         0.00      52093          0
+	// loop4             0.11         1.26         0.00       1088          0
+	// loop5             0.07         1.22         0.00       1052          0
+	// sda              96.05      1666.73       172.90    1439767     149357
+
 	lines := strings.Split(string(out), "\n")
 	if len(lines) < 3 {
 		return nil, fmt.Errorf("iops: unexpected output: %q", out)
@@ -246,9 +253,6 @@ func iostat() ([]iopsData, error) {
 		}
 	}
 
-	if len(iops) <= 0 {
-		return nil, fmt.Errorf("iops: unexpected output: %q", out)
-	}
 	return iops, nil
 }
 
